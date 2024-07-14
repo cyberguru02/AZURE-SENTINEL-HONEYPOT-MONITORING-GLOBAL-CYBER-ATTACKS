@@ -4,7 +4,6 @@
 This honeypot project is dedicated to creating an environment for simulating and monitoring cyber attacks worldwide. The main goal is to deploy Azure Sentinel as a cloud-based Security Information and Event Management (SIEM) system and configure a virtual machine as a honeypot. By intentionally exposing vulnerabilities, we simulate real-world cyber attacks originating from diverse global locations. This project offers practical insights into configuring Azure services, analyzing log data, and visualizing attack patterns using Azure's tools. This allows hands-on experience in cybersecurity operations and SIEM functionalities while enhancing skills in threat monitoring and defense strategies against cyber threats.
 
 ### Skills Learned
-[Bullet Points - Remove this afterwards]
 
 Understanding of cloud-based Security Information and Event Management (SIEM) systems, specifically Azure Sentinel.
 
