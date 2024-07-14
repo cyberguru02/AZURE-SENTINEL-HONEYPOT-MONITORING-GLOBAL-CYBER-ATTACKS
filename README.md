@@ -39,7 +39,7 @@ Hey readers! I’ll be walking through how I utilized Azure Sentinel, Microsoft�
 
 
 
-Step 1: Sign up for Azure and Create a Virtual Machine
+**Step 1: Sign up for Azure and Create a Virtual Machine**
 
  
 
@@ -95,7 +95,7 @@ Once your VM is created make sure to create a network security group for the VM 
 Having set an "any” firewall rule allows any traffic from anywhere. This is the configuration for making the VM discoverable for inbound attack attempts. To serve its purpose as a honeypot, we are making it easily discoverable and enticing for attackers which would allow me to gain better insight into these attackers as well as giving me the opportunity to gain practical technical knowledge and skills with SIEM technologies.
 
 
-Step 5: Create Log Analytics workspace
+**Step 2: Create Log Analytics workspace**
 
  
 
@@ -107,7 +107,7 @@ Our primary goal is to develop a robust infrastructure for log management and an
 
 
 
-Enable gathering VM logs in Security 
+**Step 3: Enable gathering VM logs in Security**
 
  
 
@@ -132,7 +132,7 @@ Next head over to the Data Collection tab on the right pane, and select the opti
 
 ​
 
-Step 7: Go ahead and connect back to the Log Analytics workspace and press on the created virtual machine and then press the connect button on the upper pane of the VM.
+Go ahead and connect back to the Log Analytics workspace and press on the created virtual machine and then press the connect button on the upper pane of the VM.
 
  
 
@@ -149,7 +149,7 @@ I then opened Azure in a new tab and went ahead to set up Sentinel by searching,
 ![image](https://github.com/user-attachments/assets/de04afe0-c8b1-48a6-8dd9-ef3593fccb61)
 
 
-Step 10 login 
+**Step 4A: Configuring and Optimizing Microsoft Sentinel for Attack Data Visualization**
 
 
 In setting up Azure Sentinel, we optimize the configuration of Microsoft Sentinel, our SIEM tool, to effectively visualize attack data. We start by creating Microsoft Sentinel and integrating it into our workspace, centralizing log analytics for more efficient analysis. Our focus is on Event ID 4625, which tracks failed login attempts, and we use IP addresses to obtain geolocation data to identify the attackers' locations. This information is used to create a custom log, which is ingested into Azure's Log Analytics Workspace and Sentinel. By including Latitude, Longitude, and Country data, we can accurately plot the attackers on a map, enhancing threat detection.
@@ -205,7 +205,7 @@ Also, go ahead and check for the Event ID 4625 in the events viewer and look fur
 
 ​
 
-Step 10B: Turn off firewall to make vm more susceptible to attack
+**Step 4B: Turn off firewall to make vm more susceptible to attack**
 
  
 
@@ -224,7 +224,7 @@ I also turn off the firewall within the Azure vm by stating the public and priva
 
 ​
 
-Step 11A: Retrieve Powershell script: Script
+**Step 4C: Retrieve Powershell script: Script**
 ​
 In this step, we download a crucial PowerShell script,"Custom_Security_Log_Exporter.ps1," from a trusted source, Josh Madakor, via GitHub. This script is essential for extracting geographic information from logs. After downloading it, we open Windows PowerShell ISE on the VM, create a new script, and paste the downloaded code. We save the script as "Log_Exporter" on the Desktop for easy access. Here is the link of the custom powershell script: https://github.com/Mxyiwa/SIEM-AzureSentinelLab/blob/main/Log%20Exporter.ps1
 
@@ -250,7 +250,7 @@ Additionally, we obtain an API key from Geolocation.io to ensure access to geo d
  
  
 ​
-6. Executing Script for Geo Data Retrieval from Attackers
+**Step 4D: Executing Script for Geo Data Retrieval from Attackers**
 In this phase, we implement the script, from the github, to gather geographic data from potential attackers. The script runs continuously, scanning the security log for failed login attempts. When detected, it extracts the IP addresses and retrieves their geographic information. This data is logged into a new file stored at a designated location for easy access and analysis. By executing this script, we create a system that consistently monitors and records failed login attempts, enhancing our ability to track and identify threats based on their geographic location.
 
  
@@ -271,7 +271,7 @@ Which you will receive lines of geo information associated with IP addresses.
 ​
  
 
-7. Creating and Extracting Custom Fields from Raw Log Data
+**Step 5: Creating and Extracting Custom Fields from Raw Log Data**
 In this stage, we set up a custom log within the Log Analytics Workspace to incorporate specific log data, including geographic information, into our analytics platform. First, we navigate back to the Log Analytics Workspace on Azure and select our designated Honeypot. We then create a custom log tailored to our needs by copying the relevant logs from the VM and saving them in a new notepad file named "failed_rdp.log." Next, we specify the collection path for the log file and provide necessary details, such as the log name ("FAILED_RDP_WITH_GEO"). After creating the custom log, we wait for it to be fully processed. Once ready, the custom log entries become accessible within the Log Analytics Workspace, allowing for seamless integration and analysis of the specified log data. change pic below:
 
  
@@ -310,7 +310,7 @@ I then selected the pathway C:\ProgramData\failed_rdp.log, which will be the loc
 
  
 
-Then set the custom log name to your preference and then finalize it in step 5:
+Then set the custom log name to your preference and then finalize it in step 6:
 
  
 ![image](https://github.com/user-attachments/assets/cf173368-cfe5-4e69-b11f-71ec70d337e1)
@@ -319,7 +319,7 @@ Then set the custom log name to your preference and then finalize it in step 5:
 
  
 
-Extracting Fields from Raw Custom Log Data version 2
+**Step 6: Extracting Fields from Raw Custom Log Data version**
 
 This step focuses on extracting essential fields from raw custom log data to enhance the analytical capabilities of our Log Analytics Workspace. Initially, we utilize specific code, which can be found on our GitHub repository, to extract all relevant data from the logs. This process enables the creation of distinct fields such as latitude, longitude, username, and country. As a result, when reviewing the log file within our VM, these extracted fields will be clearly delineated, facilitating easier interpretation and analysis. Subsequently, we navigate to our Log Analytics Workspace to observe the organized data, now separated into tabs for improved visibility and accessibility. Additionally, we open a new tab to overview our Microsoft Sentinel, where incoming logs can be observed, indicating successful data extraction and integration.
 
