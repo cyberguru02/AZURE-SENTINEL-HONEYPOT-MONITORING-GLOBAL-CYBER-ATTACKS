@@ -33,15 +33,13 @@ Hey readers! I’ll be walking through how I utilized Azure Sentinel, Microsoft�
 
  
 
-                                                 He’s a broad view of the simulated network I created: 
+                                   He’s a broad view of the simulated network I created: 
 
  ![image](https://github.com/user-attachments/assets/52351a30-4d66-442e-b180-fbe9ebb9545c)
 
 
 
 **Step 1: Sign up for Azure and Create a Virtual Machine**
-
- 
 
 I realized that I didn’t have to worry about having to pay for a subscription service, since a lot of platforms that provide virtual machines (VMs) often give free credit or trials to let users try out their services such as Amazon Workspace (AWS), Digital Ocean, IBM Cloud, and many other platforms! 
 
@@ -97,8 +95,6 @@ Having set an "any” firewall rule allows any traffic from anywhere. This is th
 
 **Step 2: Create Log Analytics workspace**
 
- 
-
 Our primary goal is to develop a robust infrastructure for log management and analysis. We begin by creating a Log Analytics Workspace, which will serve as the central repository for our logs. This is to help ingest logs into our virtual machine.  This workspace forms the backbone of our SIEM tool, Azure Sentinel, enabling us to visualize geographic data on a map for enhanced threat intelligence. Doing so will collect Windows Event Logs and create a custom log that includes geographic information to identify the sources of these attacks. Next, we configure Microsoft Defender for Cloud to collect VM logs and route them to the Log Analytics Workspace, ensuring thorough data capture. Finally, we establish a connection between the workspace and our VM to enhance threat detection capabilities.
 
  
@@ -109,7 +105,6 @@ Our primary goal is to develop a robust infrastructure for log management and an
 
 **Step 3: Enable gathering VM logs in Security**
 
- 
 
 Our next step is to head to Microsoft Defender for Cloud, formerly known as Security Center, in order to support an integral step for creating the capability to aggregate logs from the VM and allocate it into the “Logs Analytics workspace” .
 
@@ -150,7 +145,6 @@ I then opened Azure in a new tab and went ahead to set up Sentinel by searching,
 
 
 **Step 4A: Configuring and Optimizing Microsoft Sentinel for Attack Data Visualization**
-
 
 In setting up Azure Sentinel, we optimize the configuration of Microsoft Sentinel, our SIEM tool, to effectively visualize attack data. We start by creating Microsoft Sentinel and integrating it into our workspace, centralizing log analytics for more efficient analysis. Our focus is on Event ID 4625, which tracks failed login attempts, and we use IP addresses to obtain geolocation data to identify the attackers' locations. This information is used to create a custom log, which is ingested into Azure's Log Analytics Workspace and Sentinel. By including Latitude, Longitude, and Country data, we can accurately plot the attackers on a map, enhancing threat detection.
 
@@ -207,8 +201,6 @@ Also, go ahead and check for the Event ID 4625 in the events viewer and look fur
 
 **Step 4B: Turn off firewall to make vm more susceptible to attack**
 
- 
-
 I also turn off the firewall within the Azure vm by stating the public and private profile firewall stature to OFF. In this step, we disable the Windows Firewall on our VM to enable faster internet discovery. By turning off the Firewall, we allow ICMP echo requests, which are crucial for internet connectivity and discovery. After verifying the connectivity issue with a timed-out ping, we proceed to disable the Firewall settings for Domain, Private, and Public Profiles. With echo requests now permitted, the ping successfully resumes, ensuring better accessibility for internet-based activities. To do this, we will open the Command Prompt on our computer (not the VM) and use the following command: `ping <IP from our Public IP Address> -t`.
 
  
@@ -225,8 +217,7 @@ I also turn off the firewall within the Azure vm by stating the public and priva
 ​
 
 **Step 4C: Retrieve Powershell script: Script**
-​
-In this step, we download a crucial PowerShell script,"Custom_Security_Log_Exporter.ps1," from a trusted source, Josh Madakor, via GitHub. This script is essential for extracting geographic information from logs. After downloading it, we open Windows PowerShell ISE on the VM, create a new script, and paste the downloaded code. We save the script as "Log_Exporter" on the Desktop for easy access. Here is the link of the custom powershell script: https://github.com/Mxyiwa/SIEM-AzureSentinelLab/blob/main/Log%20Exporter.ps1
+​In this step, we download a crucial PowerShell script,"Custom_Security_Log_Exporter.ps1," from a trusted source, Josh Madakor, via GitHub. This script is essential for extracting geographic information from logs. After downloading it, we open Windows PowerShell ISE on the VM, create a new script, and paste the downloaded code. We save the script as "Log_Exporter" on the Desktop for easy access. Here is the link of the custom powershell script: https://github.com/Mxyiwa/SIEM-AzureSentinelLab/blob/main/Log%20Exporter.ps1
 
  
 
@@ -253,7 +244,6 @@ Additionally, we obtain an API key from Geolocation.io to ensure access to geo d
 **Step 4D: Executing Script for Geo Data Retrieval from Attackers**
 In this phase, we implement the script, from the github, to gather geographic data from potential attackers. The script runs continuously, scanning the security log for failed login attempts. When detected, it extracts the IP addresses and retrieves their geographic information. This data is logged into a new file stored at a designated location for easy access and analysis. By executing this script, we create a system that consistently monitors and records failed login attempts, enhancing our ability to track and identify threats based on their geographic location.
 
- 
 
 The PowerShell script scans the event logs for failed login attempts, extracting the associated IP addresses and geographic data. It then generates a new log file with this information, which is saved in the "ProgramData" directory on the VM/Remote Desktop (the file path is highlighted in the picture below).
 
@@ -272,7 +262,7 @@ Which you will receive lines of geo information associated with IP addresses.
  
 
 **Step 5: Creating and Extracting Custom Fields from Raw Log Data**
-In this stage, we set up a custom log within the Log Analytics Workspace to incorporate specific log data, including geographic information, into our analytics platform. First, we navigate back to the Log Analytics Workspace on Azure and select our designated Honeypot. We then create a custom log tailored to our needs by copying the relevant logs from the VM and saving them in a new notepad file named "failed_rdp.log." Next, we specify the collection path for the log file and provide necessary details, such as the log name ("FAILED_RDP_WITH_GEO"). After creating the custom log, we wait for it to be fully processed. Once ready, the custom log entries become accessible within the Log Analytics Workspace, allowing for seamless integration and analysis of the specified log data. change pic below:
+In this stage, we set up a custom log within the Log Analytics Workspace to incorporate specific log data, including geographic information, into our analytics platform. First, we navigate back to the Log Analytics Workspace on Azure and select our designated Honeypot. We then create a custom log tailored to our needs by copying the relevant logs from the VM and saving them in a new notepad file named "failed_rdp.log." Next, we specify the collection path for the log file and provide necessary details, such as the log name ("FAILED_RDP_WITH_GEO"). After creating the custom log, we wait for it to be fully processed. Once ready, the custom log entries become accessible within the Log Analytics Workspace, allowing for seamless integration and analysis of the specified log data. 
 
  
 ![image](https://github.com/user-attachments/assets/68efe5dd-ff46-4011-b216-76164f5cbd47)
@@ -337,7 +327,6 @@ Next, navigate to the Log Analytics Workspace on Azure. Select the workspace you
 Regrettably, Microsoft has discontinued the feature for extracting fields from the data. As an alternative solution found online, the workaround involves embedding the custom script provided below into the workbook which we run it and view the failed login geodata of attackers.
 
 
-
 Copy and paste the query from the GitHub repository (Log Analytics workspace Logs Query) into the workspace query field. We also want to change settings such as the visualization config to “Map” and Size: “Full” , and the Metric Settings as well. 
 
  ![image](https://github.com/user-attachments/assets/6dca4465-88b7-4105-b9a8-4172eaee422a)
@@ -348,8 +337,8 @@ Here are the results:
 ![image](https://github.com/user-attachments/assets/0657a92e-53fe-42da-a4fe-aa948f645801)
 
 
-Final stage: Creating the Attack Map using Geographic Data in Sentinel 
-This last stage involves setting up a map visualization within Microsoft Sentinel to plot geographic data using latitude and longitude coordinates or country information. Initially, we created a workbook within Sentinel to organize and display our data effectively. Subsequently, we remove unnecessary widgets and execute a query by pasting previously used code. Upon running the query, we generate a visualization, selecting the map option to represent the geographic distribution of our data. The visualization provides valuable insights into the geographical origins of detected threats, enhancing our ability to analyze and respond to security incidents effectively.
+**Step 7: Creating the Attack Map using Geographic Data in Sentinel**
+This last step involves setting up a map visualization within Microsoft Sentinel to plot geographic data using latitude and longitude coordinates or country information. Initially, we created a workbook within Sentinel to organize and display our data effectively. Subsequently, we remove unnecessary widgets and execute a query by pasting previously used code. Upon running the query, we generate a visualization, selecting the map option to represent the geographic distribution of our data. The visualization provides valuable insights into the geographical origins of detected threats, enhancing our ability to analyze and respond to security incidents effectively.
 
  
 
