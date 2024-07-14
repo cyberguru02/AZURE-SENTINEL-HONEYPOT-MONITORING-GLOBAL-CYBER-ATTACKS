@@ -355,7 +355,7 @@ Attacker map after 10 hours
 
 ​
 
-Key Takeaways
+**Key Takeaways**
  
 
 The Key takeaways I had with this project are:
